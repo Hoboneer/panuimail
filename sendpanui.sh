@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# TODO: Write documentation (at least for this main script).
+# TODO: Make output more compatible with old implementation in Python:
+#
+# 	* Write a script to convert numbers to ordinals.
+
 PANUI_LOG_FILE=panui.log
 # HTTPS seems to send back different (outdated) content...
 PANUI_URL=http://www.rutherford.school.nz/daily-panui/
