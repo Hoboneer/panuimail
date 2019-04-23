@@ -28,3 +28,5 @@ fi
 # Download daily panui.
 wget --append-output=$PANUI_LOG_FILE --output-document=$PANUI_RAW_HTML_FILE $PANUI_URL
 
+# Generate notices markup.
+cat $PANUI_RAW_HTML_FILE | ./getnoticesinfo.sh 2>> "$PANUI_LOG_FILE" | ./cleannotices.sh | ./mknoticemacros.awk | m4 --prefix-builtins | ./rmextrablanks.awk > "$ORPHAN_NOTICES_FILE" 2>> $PANUI_LOG_FILE
