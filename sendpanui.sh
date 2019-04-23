@@ -25,3 +25,6 @@ then
 	exit 2
 fi
 
+# Download daily panui.
+wget --append-output=$PANUI_LOG_FILE --output-document=$PANUI_RAW_HTML_FILE $PANUI_URL
+
