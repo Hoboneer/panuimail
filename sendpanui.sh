@@ -30,3 +30,20 @@ wget --append-output=$PANUI_LOG_FILE --output-document=$PANUI_RAW_HTML_FILE $PAN
 
 # Generate notices markup.
 cat $PANUI_RAW_HTML_FILE | ./getnoticesinfo.sh 2>> "$PANUI_LOG_FILE" | ./cleannotices.sh | ./mknoticemacros.awk | m4 --prefix-builtins | ./rmextrablanks.awk > "$ORPHAN_NOTICES_FILE" 2>> $PANUI_LOG_FILE
+
+mail_subject=$(date +"Rutherford Panui, %d/%m/%y")
+# Generate and send emails.
+for recipient_record in $(cat $MAILING_LIST_FILE);
+do
+	name=$(echo $recipient_record | cut -f 1 -d ',')
+	email=$(echo $recipient_record | cut -f 2 -d ',')
+	
+	# Generate email for current recipient.
+	cat $ORPHAN_NOTICES_FILE | ./mkpanuimail.sh "$name" > "$UNSENT_MAIL_BODY_FILE"
+
+	# Send email to current recipient.
+	# I don't if the daily panui will have non US-ASCII letters. (which is why encoding is 8--not 7--bit)
+	mail.mailutils -s "$mail_subject" --alternative \
+		--content-type=text/html --encoding=8bit --attach="$UNSENT_MAIL_BODY_FILE" \
+		"$email" < "$PLAINTEXT_PART_FILE"
+done
