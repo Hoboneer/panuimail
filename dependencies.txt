@@ -1,8 +1,8 @@
-html-xml-utils
-m4
 coreutils
-wget
-# Any POSIX-compliant AWK should do fine though.
 gawk
+html-xml-utils
+# Any POSIX-compliant AWK should do fine though.
+m4
 mailutils
 tidy
+wget
