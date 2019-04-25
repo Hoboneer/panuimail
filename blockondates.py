@@ -6,7 +6,7 @@ def get_date(datestring):
     try:
         date = datetime.datetime.fromisoformat(datestring)
     except ValueError:
-        print(f"Invalid ISO date: {datestring}", file=sys.stderr)
+        print("Invalid ISO date: {}".format(datestring), file=sys.stderr)
         sys.exit(3)
     return date.date()
 
