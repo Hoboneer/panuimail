@@ -28,7 +28,7 @@ if __name__ == "__main__":
             sys.exit(2)
 
         current_date = datetime.datetime.now().date()
-        if current_date >= start_date or current_date <= end_date:
+        if start_date <= current_date <= end_date:
             print("Current date within range", file=sys.stderr)
             sys.exit(1)
     # Exit code 0
