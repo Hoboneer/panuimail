@@ -30,14 +30,12 @@ HTML_MAIL_BODY_FILE=.panui_mail.html
 PLAINTEXT_MAIL_BODY_FILE=.panui_mail.txt
 
 # Prevent script from running during holidays.
-if ! ./ensure2fields.awk "$IGNORE_DATES_FILE" | ./failondates.awk 2>> $PANUI_LOG_FILE;
-then
+if ! ./ensure2fields.awk "$IGNORE_DATES_FILE" | ./failondates.awk 2>> $PANUI_LOG_FILE; then
 	exit 1
 fi
 
 # Prevent script from running on the weekend.
-if ! ./failonweekend.py 2>> $PANUI_LOG_FILE;
-then
+if ! ./failonweekend.py 2>> $PANUI_LOG_FILE; then
 	exit 2
 fi
 
