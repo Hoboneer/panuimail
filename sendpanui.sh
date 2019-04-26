@@ -21,7 +21,7 @@ UNSENT_MAIL_BODY_FILE=.panui_mail.html
 PLAINTEXT_PART_FILE=nohtmlmessage.txt
 
 # Prevent script from running during holidays.
-if ! $(awk 'NF == 1 { print $1, $1 } NF == 2 { print $1, $2 }' ${HOLIDAYS:='holidays.txt'} | python blockondates.py 2>> $PANUI_LOG_FILE);
+if ! ./ensure2fields.awk ${HOLIDAYS:='holidays.txt'} | ./failondates.awk 2>> $PANUI_LOG_FILE;
 then
 	exit 1
 fi
