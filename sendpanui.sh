@@ -29,8 +29,11 @@ PANUI_END_STRING='Copyright Rutherford_College - All Rights Reserved'
 HTML_MAIL_BODY_FILE=.panui_mail.html
 PLAINTEXT_MAIL_BODY_FILE=.panui_mail.txt
 
+# Don't break if "$IGNORE_DATES_FILE" does not exist.
+if ! [ -e "$IGNORE_DATES_FILE" ]; then
+	printf '"%s" does not exist. Running anyway...\n' "$IGNORE_DATES_FILE" >> "$PANUI_LOG_FILE"
 # Prevent script from running during holidays.
-if ! ./ensure2fields.awk "$IGNORE_DATES_FILE" 2>> "$PANUI_LOG_FILE" | ./failondates.awk 2>> "$PANUI_LOG_FILE"; then
+elif ! ./ensure2fields.awk "$IGNORE_DATES_FILE" 2>> "$PANUI_LOG_FILE" | ./failondates.awk 2>> "$PANUI_LOG_FILE"; then
 	exit 1
 fi
 
