@@ -36,7 +36,6 @@ fi
 wget --append-output=$PANUI_LOG_FILE --output-document=$PANUI_RAW_HTML_FILE $PANUI_URL
 
 # Generate notices markup.
-cat $PANUI_RAW_HTML_FILE | ./getnoticesinfo.sh 2>> "$PANUI_LOG_FILE" | ./cleannotices.sh | ./mknoticemacros.awk | m4 --prefix-builtins | ./rmextrablanks.awk > "$ORPHAN_NOTICES_FILE" 2>> $PANUI_LOG_FILE
 
 mail_subject=$(date +"Rutherford Panui, %d/%m/%y")
 # Generate and send emails.
@@ -54,3 +53,4 @@ do
 		--content-type=text/html --encoding=8bit --attach="$UNSENT_MAIL_BODY_FILE" \
 		"$email" < "$PLAINTEXT_PART_FILE"
 done
+./getnoticesinfo.sh < "$PANUI_RAW_HTML_FILE" 2>> "$PANUI_LOG_FILE" | tr -s '\n' | ./mknoticemacros.awk | m4 --prefix-builtins > "$ORPHAN_NOTICES_FILE"
