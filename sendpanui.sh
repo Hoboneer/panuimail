@@ -17,6 +17,18 @@ ORPHAN_NOTICES_FILE=.notices.html
 
 UNSENT_MAIL_BODY_FILE=.panui_mail.html
 PLAINTEXT_PART_FILE=nohtmlmessage.txt
+# Files used in processing for the plaintext part of the emails.
+RAW_PLAINTEXT_NOTICES_FILE=.raw_notices.txt
+PLAINTEXT_NOTICES_FILE=.notices.txt
+
+# Strings enclosing the panui in the plaintext raw output (html2text).
+# The end string will be excluded by further processing.
+PANUI_START_STRING='****** Daily Panui ******'
+PANUI_END_STRING='Copyright Rutherford_College - All Rights Reserved'
+
+# Files whose content will be sent in the emails.
+HTML_MAIL_BODY_FILE=.panui_mail.html
+PLAINTEXT_MAIL_BODY_FILE=.panui_mail.txt
 
 # Prevent script from running during holidays.
 if ! ./ensure2fields.awk ${HOLIDAYS:='holidays.txt'} | ./failondates.awk 2>> $PANUI_LOG_FILE;
