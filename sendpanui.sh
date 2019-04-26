@@ -1,13 +1,12 @@
 #!/bin/sh
 
 # TODO: Write documentation (at least for this main script).
-# TODO: Make output more compatible with old implementation in Python:
-#
-# 	* Write a script to convert numbers to ordinals.
+# TODO: Don't write to a log file? Should the consumer of the script decide?
 
 PANUI_LOG_FILE=panui.log
 # HTTPS seems to send back different (outdated) content...
 PANUI_URL=http://www.rutherford.school.nz/daily-panui/
+# The file to read the daily panui into when downloaded.
 PANUI_RAW_HTML_FILE=.raw_panui.html
 # The code below depends on it being CSV-like (commas as field delimeters).
 MAILING_LIST_FILE=mailing_list.csv
