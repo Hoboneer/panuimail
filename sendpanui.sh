@@ -62,3 +62,19 @@ do
 		"$email" < "$PLAINTEXT_PART_FILE"
 done
 ./getnoticesinfo.sh < "$PANUI_RAW_HTML_FILE" 2>> "$PANUI_LOG_FILE" | tr -s '\n' | ./mknoticemacros.awk | m4 --prefix-builtins > "$ORPHAN_NOTICES_FILE"
+
+# Generate plaintext version of notices.
+html2text -utf8 -o "$RAW_PLAINTEXT_NOTICES_FILE" "$PANUI_RAW_HTML_FILE"
+# Lines from $starting_line to $ending_line (exclusive) are to be used in email with little processing.
+starting_line=$(grep -Fn "$PANUI_START_STRING" "$RAW_PLAINTEXT_NOTICES_FILE" | cut -f 1 -d ':')
+ending_line=$(grep -Fn "$PANUI_END_STRING" "$RAW_PLAINTEXT_NOTICES_FILE" | cut -f 1 -d ':')
+ending_line=$((ending_line-1))
+
+# Shell expansion makes calling sed a bit tricky without this.
+sed_expr=$(printf "%s,%sp" "$starting_line" "$ending_line")
+# Cut out daily panui from page.
+sed -n "$sed_expr" "$RAW_PLAINTEXT_NOTICES_FILE" > "$PLAINTEXT_NOTICES_FILE"
+
+# XXX: Just for now.
+cp "$PLAINTEXT_NOTICES_FILE" "$PLAINTEXT_MAIL_BODY_FILE"
+
