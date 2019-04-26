@@ -27,7 +27,7 @@ then
 fi
 
 # Prevent script from running on the weekend.
-if ! $(python failonweekend.py 2>> $PANUI_LOG_FILE);
+if ! ./failonweekend.py 2>> $PANUI_LOG_FILE;
 then
 	exit 2
 fi
