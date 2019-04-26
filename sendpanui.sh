@@ -29,7 +29,7 @@ HTML_MAIL_BODY_FILE=.panui_mail.html
 PLAINTEXT_MAIL_BODY_FILE=.panui_mail.txt
 
 # Prevent script from running during holidays.
-if ! ./ensure2fields.awk ${HOLIDAYS:='holidays.txt'} | ./failondates.awk 2>> $PANUI_LOG_FILE;
+if ! ./ensure2fields.awk "${HOLIDAYS:='holidays.txt'}" | ./failondates.awk 2>> $PANUI_LOG_FILE;
 then
 	exit 1
 fi
@@ -41,7 +41,7 @@ then
 fi
 
 # Download daily panui.
-wget --append-output=$PANUI_LOG_FILE --output-document=$PANUI_RAW_HTML_FILE $PANUI_URL
+wget --append-output="$PANUI_LOG_FILE" --output-document="$PANUI_RAW_HTML_FILE" "$PANUI_URL"
 
 # Generate notices markup.
 ./getnoticesinfo.sh < "$PANUI_RAW_HTML_FILE" 2>> "$PANUI_LOG_FILE" | tr -s '\n' | ./mknoticemacros.awk | m4 --prefix-builtins > "$ORPHAN_NOTICES_FILE"
