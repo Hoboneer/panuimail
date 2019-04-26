@@ -2,9 +2,11 @@ coreutils
 # Any POSIX-compliant AWK should do fine though.
 gawk
 html-xml-utils
+html2text
 m4
 # Version 3.5 is minimum version needed.
 python3
+sed
 # Any sendmail-compatible MTA should do fine.
 ssmtp
 tidy
