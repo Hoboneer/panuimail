@@ -12,6 +12,7 @@ BEGIN {
 	command_str = "date -Idate"
 	# Execute `command_str` in a subshell and assign `current_date` to its output.
 	command_str | getline current_date
+	close(command_str)
 }
 
 # Date within bounds.
