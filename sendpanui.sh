@@ -4,12 +4,13 @@
 # TODO: Don't write to a log file? Should the consumer of the script decide?
 
 PANUI_LOG_FILE=panui.log
+# The code below depends on it being CSV-like (commas as field delimeters).
+MAILING_LIST_FILE=mailing_list.csv
+
 # HTTPS seems to send back different (outdated) content...
 PANUI_URL=http://www.rutherford.school.nz/daily-panui/
 # The file to read the daily panui into when downloaded.
 PANUI_RAW_HTML_FILE=.raw_panui.html
-# The code below depends on it being CSV-like (commas as field delimeters).
-MAILING_LIST_FILE=mailing_list.csv
 
 # HTML not contained in a root `html` tag.
 ORPHAN_NOTICES_FILE=.notices.html
