@@ -5,8 +5,6 @@
 #
 # 	* Write a script to convert numbers to ordinals.
 
-PYTHON="${PYTHON:-'python'}"
-
 PANUI_LOG_FILE=panui.log
 # HTTPS seems to send back different (outdated) content...
 PANUI_URL=http://www.rutherford.school.nz/daily-panui/
