@@ -6,6 +6,7 @@
 PANUI_LOG_FILE=panui.log
 # The code below depends on it being CSV-like (commas as field delimeters).
 MAILING_LIST_FILE=mailing_list.csv
+IGNORE_DATES_FILE=holidays.txt
 
 # HTTPS seems to send back different (outdated) content...
 PANUI_URL=http://www.rutherford.school.nz/daily-panui/
@@ -29,7 +30,7 @@ HTML_MAIL_BODY_FILE=.panui_mail.html
 PLAINTEXT_MAIL_BODY_FILE=.panui_mail.txt
 
 # Prevent script from running during holidays.
-if ! ./ensure2fields.awk "${HOLIDAYS:='holidays.txt'}" | ./failondates.awk 2>> $PANUI_LOG_FILE;
+if ! ./ensure2fields.awk "$IGNORE_DATES_FILE" | ./failondates.awk 2>> $PANUI_LOG_FILE;
 then
 	exit 1
 fi
