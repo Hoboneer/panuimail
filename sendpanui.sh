@@ -44,23 +44,6 @@ fi
 wget --append-output=$PANUI_LOG_FILE --output-document=$PANUI_RAW_HTML_FILE $PANUI_URL
 
 # Generate notices markup.
-
-mail_subject=$(date +"Rutherford Panui, %d/%m/%y")
-# Generate and send emails.
-for recipient_record in $(cat $MAILING_LIST_FILE);
-do
-	name=$(echo $recipient_record | cut -f 1 -d ',')
-	email=$(echo $recipient_record | cut -f 2 -d ',')
-	
-	# Generate email for current recipient.
-	cat $ORPHAN_NOTICES_FILE | ./mkpanuimail.sh "$name" > "$UNSENT_MAIL_BODY_FILE"
-
-	# Send email to current recipient.
-	# I don't if the daily panui will have non US-ASCII letters. (which is why encoding is 8--not 7--bit)
-	mail.mailutils -s "$mail_subject" --alternative \
-		--content-type=text/html --encoding=8bit --attach="$UNSENT_MAIL_BODY_FILE" \
-		"$email" < "$PLAINTEXT_PART_FILE"
-done
 ./getnoticesinfo.sh < "$PANUI_RAW_HTML_FILE" 2>> "$PANUI_LOG_FILE" | tr -s '\n' | ./mknoticemacros.awk | m4 --prefix-builtins > "$ORPHAN_NOTICES_FILE"
 
 # Generate plaintext version of notices.
@@ -78,3 +61,23 @@ sed -n "$sed_expr" "$RAW_PLAINTEXT_NOTICES_FILE" > "$PLAINTEXT_NOTICES_FILE"
 # XXX: Just for now.
 cp "$PLAINTEXT_NOTICES_FILE" "$PLAINTEXT_MAIL_BODY_FILE"
 
+# Generate and send emails while looping through each record from the mailing list.
+while IFS=, read -r name email; do
+	# Ignore line if name or email is not present in the mailing list.
+	if [ -z "$name" ] && [ -z "$email" ]; then
+		# Skip empty line
+		continue
+	elif [ -z "$name" ]; then
+		printf "Name undefined for email: %s\n" "$email" >> "$PANUI_LOG_FILE"
+		continue
+	elif [ -z "$email" ]; then
+		printf "Email undefined for name: %s\n" "$name" >> "$PANUI_LOG_FILE"
+		continue
+	fi
+
+	# Generate HTML mail body for current recipient.
+	./mkpanuimail.sh "$name" < "$ORPHAN_NOTICES_FILE" > "$HTML_MAIL_BODY_FILE"
+
+	# Generate and send email for current recipient.
+	./mkmimemail.sh "$email" "$PLAINTEXT_MAIL_BODY_FILE" "$HTML_MAIL_BODY_FILE" | sendmail -t
+done < "$MAILING_LIST_FILE"
