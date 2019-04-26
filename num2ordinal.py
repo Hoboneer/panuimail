@@ -56,7 +56,7 @@ if __name__ == "__main__":
     try:
         num = int(num_arg)
     except ValueError:
-        print("`{}` is not a valid integer".format(num_arg))
+        print("`{}` is not a valid integer".format(num_arg), file=sys.stderr)
         sys.exit(1)
 
     print(num_to_ordinal(num))
