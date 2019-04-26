@@ -15,8 +15,6 @@ PANUI_RAW_HTML_FILE=.raw_panui.html
 # HTML not contained in a root `html` tag.
 ORPHAN_NOTICES_FILE=.notices.html
 
-UNSENT_MAIL_BODY_FILE=.panui_mail.html
-PLAINTEXT_PART_FILE=nohtmlmessage.txt
 # Files used in processing for the plaintext part of the emails.
 RAW_PLAINTEXT_NOTICES_FILE=.raw_notices.txt
 PLAINTEXT_NOTICES_FILE=.notices.txt
